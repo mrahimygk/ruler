@@ -20,7 +20,9 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var screenWidthInInch = 1.0f
     private var screenWidthInPixel = 1.0f
     private var oneInchInPixel = 1.0f
+    private var oneCentimeterInPixel = 1.0f
     private var inchLineCount = 1
+    private var centimeterLineCount = 1
 
     private var mLineColor = Color.BLUE
     private var mInCentimeter = false
@@ -64,8 +66,6 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     private fun drawRuler(canvas: Canvas?) {
-
-        if (mInCentimeter) return
         var unitIndex = 0
         repeat(inchLineCount * numberOfSubdivisions) {
             val width = when {
@@ -127,14 +127,16 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
         this.screenWidthInInch = screenWidthInInch
 
         /**
-         * finding the ratio of int and pixel
+         * finding the ratio of inch and pixel
          */
         this.oneInchInPixel = screenHeightInPixel / screenHeightInInch
+        this.oneCentimeterInPixel = oneInchInPixel / 2.54f
 
         /**
          * drawing x horizontal lines, 1 more to be sure
          */
         inchLineCount = (screenHeightInPixel / oneInchInPixel).roundToInt() + 1
+        centimeterLineCount = (screenHeightInPixel / oneCentimeterInPixel).roundToInt() + 1
 
         invalidate()
     }
