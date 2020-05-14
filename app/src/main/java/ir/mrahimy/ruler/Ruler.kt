@@ -17,8 +17,9 @@ import kotlin.math.roundToInt
 class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     private var borderWidth = 4.0f
-    private var mLineColor = Color.GRAY
-    private var screenLength = 17.0
+    private var mLineColor = Color.BLUE
+    private var screenHeightInInch = 1.0f
+    private var screenHeightInPixel = 1.0f
 
     private val linesPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
@@ -47,39 +48,60 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     private fun drawRuler(canvas: Canvas?) {
+        /**
+         * finding the ratio of int and pixel
+         */
+        val oneInchInPixel = (screenHeightInPixel / screenHeightInInch)
 
-        val startX = paddingStart.toFloat()
-        val startY = paddingTop.toFloat()
-        val endX = width - paddingEnd.toFloat()
-        val endY = height - paddingBottom.toFloat()
+        /**
+         * drawing x horizontal lines, 1 more to be sure
+         */
+        val count = (screenHeightInPixel / oneInchInPixel).roundToInt() + 1
 
-//        canvas?.drawLine(startX, startY, startX + 50f, startY, linesPaint)
-//        canvas?.drawLine(startX, startY, startX, startY + 50f, linesPaint)
-//
-//        canvas?.drawLine(startX, endY, startX + 50f, endY, linesPaint)
-//        canvas?.drawLine(startX, endY, startX, endY - 50f, linesPaint)
-//
-//        canvas?.drawLine(endX, startY, endX - 50f, startY, linesPaint)
-//        canvas?.drawLine(endX, startY, endX, startY + 50f, linesPaint)
-//
-//        canvas?.drawLine(endX, endY, endX - 50f, endY, linesPaint)
-//        canvas?.drawLine(endX, endY, endX, endY - 50f, linesPaint)
-
-        val _1_InchInPixel = (endY / screenLength)
-        val count = (endY / _1_InchInPixel).roundToInt()
-        repeat(count + 1) {
+        repeat(count) {
             canvas?.drawLine(
                 0.0f,
-                _1_InchInPixel.toFloat() * it,
+                oneInchInPixel * it,
                 64.0f,
-                _1_InchInPixel.toFloat() * it,
+                oneInchInPixel * it,
+                linesPaint
+            )
+        }
+
+        repeat(count * 2) {
+            canvas?.drawLine(
+                0.0f,
+                oneInchInPixel / 2 * it,
+                32.0f,
+                oneInchInPixel / 2 * it,
+                linesPaint
+            )
+        }
+
+        repeat(count * 4) {
+            canvas?.drawLine(
+                0.0f,
+                oneInchInPixel / 4 * it,
+                16.0f,
+                oneInchInPixel / 4 * it,
+                linesPaint
+            )
+        }
+
+        repeat(count * 8) {
+            canvas?.drawLine(
+                0.0f,
+                oneInchInPixel / 8 * it,
+                8.0f,
+                oneInchInPixel / 8 * it,
                 linesPaint
             )
         }
     }
 
-    fun setScreenLength(x: Double) {
-        screenLength = x
+    fun setScreenDimensions(screenHeightInInch: Float, screenHeightInPixel: Float) {
+        this.screenHeightInInch = screenHeightInInch
+        this.screenHeightInPixel = screenHeightInPixel
         invalidate()
     }
 }
