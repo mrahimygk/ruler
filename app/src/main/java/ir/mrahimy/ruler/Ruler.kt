@@ -96,14 +96,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
                 )
 
-                //right
-                canvas?.drawLine(
-                    screenWidthInPixel,
-                    linesStep,
-                    screenWidthInPixel - width,
-                    linesStep,
-                    linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
-                )
+                //hint: there is right ruler in git history
 
                 //top
                 canvas?.drawLine(
@@ -114,14 +107,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
                 )
 
-                //top
-                canvas?.drawLine(
-                    linesStep,
-                    screenHeightInPixel,
-                    linesStep,
-                    screenHeightInPixel - width,
-                    linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
-                )
+                //hint: there is bottom ruler in git history
 
                 /**
                  * Drawing text by using a custom type face which draws persian numbers for english numbers
@@ -145,23 +131,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         textPaintForSubdivision
                     )
 
-                //right, whole units
-                if (maxWidthOfUnit == width && unitIndex != 0)
-                    canvas?.drawText(
-                        (unitIndex).toString(),
-                        screenWidthInPixel - width - 48,
-                        linesStep + textPaintForWholeUnit.textSize / 3,
-                        textPaintForWholeUnit
-                    )
-
-                //right, fractions
-                if (maxWidthOfUnit / 1.5f == width && unitIndex > 1)
-                    canvas?.drawText(
-                        "${unitIndex - 1}٫5",
-                        screenWidthInPixel - width - 48,
-                        linesStep + textPaintForSubdivision.textSize / 3,
-                        textPaintForSubdivision
-                    )
+                //hint: there is right ruler numbers in git history
 
                 // top, whole units
                 if (maxWidthOfUnit == width && unitIndex != 0)
@@ -181,23 +151,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         textPaintForSubdivision
                     )
 
-                // bottom, whole units
-                if (maxWidthOfUnit == width && unitIndex != 0)
-                    canvas?.drawText(
-                        (unitIndex).toString(),
-                        linesStep - textPaintForWholeUnit.textSize / 4,
-                        screenHeightInPixel - width - 32,
-                        textPaintForWholeUnit
-                    )
-
-                //bottom, fractions
-                if (maxWidthOfUnit / 1.5f == width && unitIndex != 0)
-                    canvas?.drawText(
-                        "${unitIndex - 1}٫5",
-                        linesStep - textPaintForSubdivision.textSize / 1.5f,
-                        screenHeightInPixel - width - 32,
-                        textPaintForSubdivision
-                    )
+                //hint: there is bottom ruler numbers in git history
 
                 /**
                  * only increasing index if it is a whole unit and not a fraction
