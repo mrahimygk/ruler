@@ -136,6 +136,24 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         textPaintForSubdivision
                     )
 
+                //right, whole units
+                if (maxWidthOfUnit == width && unitIndex != 0)
+                    canvas?.drawText(
+                        (unitIndex).toString(),
+                        screenWidthInPixel - width - 48,
+                        linesStep + textPaintForWholeUnit.textSize / 3,
+                        textPaintForWholeUnit
+                    )
+
+                //right, fractions
+                if (maxWidthOfUnit / 1.5f == width && unitIndex > 1)
+                    canvas?.drawText(
+                        "${unitIndex - 1}٫5",
+                        screenWidthInPixel - width - 48,
+                        linesStep + textPaintForSubdivision.textSize / 3,
+                        textPaintForSubdivision
+                    )
+
                 // top, whole units
                 if (maxWidthOfUnit == width && unitIndex != 0)
                     canvas?.drawText(
