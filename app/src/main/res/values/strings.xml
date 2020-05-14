@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Ruler</string>
+    <string name="inches">اینچ</string>
+    <string name="centimeters">سانتیمتر</string>
 </resources>
