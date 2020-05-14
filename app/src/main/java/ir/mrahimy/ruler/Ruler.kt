@@ -105,6 +105,8 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 /**
                  * Drawing text by using a custom type face which draws persian numbers for english numbers
                  */
+
+                //left, whole units
                 if (maxWidthOfUnit == width && unitIndex != 0)
                     canvas?.drawText(
                         (unitIndex).toString(),
@@ -113,6 +115,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         textPaintForWholeUnit
                     )
 
+                //left, fractions
                 if (maxWidthOfUnit / 1.5f == width && unitIndex > 1)
                     canvas?.drawText(
                         "${unitIndex - 1}٫5",
@@ -121,6 +124,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         textPaintForSubdivision
                     )
 
+                // top, whole units
                 if (maxWidthOfUnit == width && unitIndex != 0)
                     canvas?.drawText(
                         (unitIndex).toString(),
@@ -129,6 +133,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         textPaintForWholeUnit
                     )
 
+                //top, fractions
                 if (maxWidthOfUnit / 1.5f == width && unitIndex != 0)
                     canvas?.drawText(
                         "${unitIndex - 1}٫5",
