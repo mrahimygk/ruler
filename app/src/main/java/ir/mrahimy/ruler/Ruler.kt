@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
+import ir.mrahimy.ruler.data.DisplayInfo
 import kotlin.math.roundToInt
 
 /**
@@ -196,16 +197,11 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
             }
     }
 
-    fun setScreenDimensions(
-        screenHeightInInch: Float,
-        screenHeightInPixel: Float,
-        screenWidthInInch: Float,
-        screenWidthInPixel: Float
-    ) {
-        this.screenHeightInInch = screenHeightInInch
-        this.screenHeightInPixel = screenHeightInPixel
-        this.screenWidthInPixel = screenWidthInPixel
-        this.screenWidthInInch = screenWidthInInch
+    fun setScreenDimensions(displayInfo: DisplayInfo) {
+        this.screenHeightInInch = displayInfo.hInInch
+        this.screenHeightInPixel = displayInfo.hInPixel
+        this.screenWidthInInch = displayInfo.wInInch
+        this.screenWidthInPixel = displayInfo.wInPixel
 
         /**
          * finding the ratio of inch and pixel
