@@ -56,41 +56,20 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
          */
         val count = (screenHeightInPixel / oneInchInPixel).roundToInt() + 1
 
-        repeat(count) {
-            canvas?.drawLine(
-                0.0f,
-                oneInchInPixel * it,
-                64.0f,
-                oneInchInPixel * it,
-                linesPaint
-            )
-        }
-
-        repeat(count * 2) {
-            canvas?.drawLine(
-                0.0f,
-                oneInchInPixel / 2 * it,
-                32.0f,
-                oneInchInPixel / 2 * it,
-                linesPaint
-            )
-        }
-
-        repeat(count * 4) {
-            canvas?.drawLine(
-                0.0f,
-                oneInchInPixel / 4 * it,
-                16.0f,
-                oneInchInPixel / 4 * it,
-                linesPaint
-            )
-        }
-
-        repeat(count * 8) {
+        val numberOfSubdivisions = 8
+        val maxWidthOfUnit = 64.0f
+        repeat(count * numberOfSubdivisions) {
+            val width = when {
+                it % (numberOfSubdivisions / 1) == 0 -> maxWidthOfUnit / 1
+                it % (numberOfSubdivisions / 2) == 0 -> maxWidthOfUnit / 2
+                it % (numberOfSubdivisions / 4) == 0 -> maxWidthOfUnit / 4
+                it % (numberOfSubdivisions / 8) == 0 -> maxWidthOfUnit / 8
+                else -> 1.0f
+            }
             canvas?.drawLine(
                 0.0f,
                 oneInchInPixel / 8 * it,
-                8.0f,
+                width,
                 oneInchInPixel / 8 * it,
                 linesPaint
             )
