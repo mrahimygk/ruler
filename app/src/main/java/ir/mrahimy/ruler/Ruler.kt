@@ -94,6 +94,14 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
                 )
 
+                canvas?.drawLine(
+                    lineY,
+                    0.0f,
+                    lineY,
+                    width,
+                    linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
+                )
+
                 /**
                  * Drawing text by using a custom type face which draws persian numbers for english numbers
                  */
@@ -105,13 +113,33 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         textPaintForWholeUnit
                     )
 
-                if (maxWidthOfUnit / 1.5f == width && unitIndex != 0)
+                if (maxWidthOfUnit / 1.5f == width && unitIndex > 1)
                     canvas?.drawText(
                         "${unitIndex - 1}٫5",
                         width + 32,
                         lineY + textPaintForSubdivision.textSize / 3,
                         textPaintForSubdivision
                     )
+
+                if (maxWidthOfUnit == width && unitIndex != 0)
+                    canvas?.drawText(
+                        (unitIndex).toString(),
+                        lineY - textPaintForWholeUnit.textSize / 4,
+                        width + 48,
+                        textPaintForWholeUnit
+                    )
+
+                if (maxWidthOfUnit / 1.5f == width && unitIndex != 0)
+                    canvas?.drawText(
+                        "${unitIndex - 1}٫5",
+                        lineY - textPaintForSubdivision.textSize / 1.5f,
+                        width + 48,
+                        textPaintForSubdivision
+                    )
+
+                /**
+                 * only increasing index if it is a whole unit and not a fraction
+                 */
                 if (maxWidthOfUnit == width) unitIndex++
             }
         else
