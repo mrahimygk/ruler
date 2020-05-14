@@ -10,6 +10,7 @@
         android:id="@+id/ruler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:lineColor="@color/blue"
         app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
