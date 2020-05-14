@@ -85,19 +85,31 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     else -> maxWidthOfUnit / 3
                 }
 
-                val lineY = oneCentimeterInPixel / numberOfCentimeterSubdivisions * it
+                val linesStep = oneCentimeterInPixel / numberOfCentimeterSubdivisions * it
+
+                //left
                 canvas?.drawLine(
                     0.0f,
-                    lineY,
+                    linesStep,
                     width,
-                    lineY,
+                    linesStep,
                     linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
                 )
 
+                //right
                 canvas?.drawLine(
-                    lineY,
+                    screenWidthInPixel,
+                    linesStep,
+                    screenWidthInPixel - width,
+                    linesStep,
+                    linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
+                )
+
+                //top
+                canvas?.drawLine(
+                    linesStep,
                     0.0f,
-                    lineY,
+                    linesStep,
                     width,
                     linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
                 )
@@ -111,7 +123,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     canvas?.drawText(
                         (unitIndex).toString(),
                         width + 32,
-                        lineY + textPaintForWholeUnit.textSize / 3,
+                        linesStep + textPaintForWholeUnit.textSize / 3,
                         textPaintForWholeUnit
                     )
 
@@ -120,7 +132,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     canvas?.drawText(
                         "${unitIndex - 1}٫5",
                         width + 32,
-                        lineY + textPaintForSubdivision.textSize / 3,
+                        linesStep + textPaintForSubdivision.textSize / 3,
                         textPaintForSubdivision
                     )
 
@@ -128,7 +140,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 if (maxWidthOfUnit == width && unitIndex != 0)
                     canvas?.drawText(
                         (unitIndex).toString(),
-                        lineY - textPaintForWholeUnit.textSize / 4,
+                        linesStep - textPaintForWholeUnit.textSize / 4,
                         width + 48,
                         textPaintForWholeUnit
                     )
@@ -137,7 +149,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 if (maxWidthOfUnit / 1.5f == width && unitIndex != 0)
                     canvas?.drawText(
                         "${unitIndex - 1}٫5",
-                        lineY - textPaintForSubdivision.textSize / 1.5f,
+                        linesStep - textPaintForSubdivision.textSize / 1.5f,
                         width + 48,
                         textPaintForSubdivision
                     )
