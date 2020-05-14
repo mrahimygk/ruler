@@ -33,6 +33,7 @@
             android:textColor="#fff"
             android:thumb="@drawable/switch_thumb"
             android:thumbTextPadding="8dp"
+            android:onClick="@{(v)->vm.onSwitchClick(v)}"
             android:track="@drawable/switch_track"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

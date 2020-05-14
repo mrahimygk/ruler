@@ -1,11 +1,10 @@
 package ir.mrahimy.ruler
 
+import android.view.View
+import android.widget.Switch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivityViewModel : ViewModel() {
 
@@ -15,12 +14,9 @@ class MainActivityViewModel : ViewModel() {
 
     init {
         _isRulerInCentimeters.postValue(false)
+    }
 
-        viewModelScope.launch {
-            while (true) {
-                delay(666)
-                _isRulerInCentimeters.postValue(_isRulerInCentimeters.value?.not())
-            }
-        }
+    fun onSwitchClick(v: View) {
+        _isRulerInCentimeters.postValue((v as Switch).isChecked)
     }
 }
