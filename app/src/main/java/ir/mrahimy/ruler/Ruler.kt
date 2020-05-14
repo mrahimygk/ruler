@@ -50,12 +50,12 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
         val typedArray =
             context.obtainStyledAttributes(attrs, R.styleable.Ruler, 0, 0)
 
-        typedArray?.apply {
+        typedArray.apply {
             mLineColor = getColor(R.styleable.Ruler_lineColor, Color.BLUE)
             mInCentimeter = getBoolean(R.styleable.Ruler_isCentimeter, false)
         }
         linesPaint.color = mLineColor
-        typedArray?.recycle()
+        typedArray.recycle()
     }
 
     override fun draw(canvas: Canvas?) {
