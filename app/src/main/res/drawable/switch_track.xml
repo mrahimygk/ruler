@@ -6,10 +6,20 @@
         android:top="-100dp"
         android:bottom="-100dp">
         <shape
-            android:shape="rectangle"
-            android:tint="#f0f">
+            android:shape="rectangle">
             <corners android:radius="18dp" />
-            <solid android:color="#0f0" />
+            <solid android:color="#ccc" />
+        </shape>
+    </item>
+    <item
+        android:left="-100dp"
+        android:right="-10dp"
+        android:top="-10dp"
+        android:bottom="-10dp">
+        <shape
+            android:shape="rectangle">
+            <corners android:radius="18dp" />
+            <solid android:color="#ddd"/>
         </shape>
     </item>
 </layer-list>

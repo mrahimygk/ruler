@@ -9,7 +9,17 @@
             android:tint="#0f0">
             <corners android:radius="2dp" />
             <solid android:color="#0f0" />
-            <size android:height="20dp" />
+        </shape>
+    </item>
+
+    <item
+        android:left="-10dp"
+        android:top="-100dp"
+        android:bottom="-100dp">
+        <shape
+            android:shape="rectangle">
+            <corners android:radius="2dp" />
+            <solid android:color="#99f" />
         </shape>
     </item>
 </layer-list>
