@@ -114,6 +114,15 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
                 )
 
+                //top
+                canvas?.drawLine(
+                    linesStep,
+                    screenHeightInPixel,
+                    linesStep,
+                    screenHeightInPixel - width,
+                    linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
+                )
+
                 /**
                  * Drawing text by using a custom type face which draws persian numbers for english numbers
                  */
@@ -169,6 +178,24 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                         "${unitIndex - 1}٫5",
                         linesStep - textPaintForSubdivision.textSize / 1.5f,
                         width + 48,
+                        textPaintForSubdivision
+                    )
+
+                // bottom, whole units
+                if (maxWidthOfUnit == width && unitIndex != 0)
+                    canvas?.drawText(
+                        (unitIndex).toString(),
+                        linesStep - textPaintForWholeUnit.textSize / 4,
+                        screenHeightInPixel - width - 32,
+                        textPaintForWholeUnit
+                    )
+
+                //bottom, fractions
+                if (maxWidthOfUnit / 1.5f == width && unitIndex != 0)
+                    canvas?.drawText(
+                        "${unitIndex - 1}٫5",
+                        linesStep - textPaintForSubdivision.textSize / 1.5f,
+                        screenHeightInPixel - width - 32,
                         textPaintForSubdivision
                     )
 
