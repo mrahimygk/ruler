@@ -12,19 +12,15 @@ fun Activity.getRealDeviceSizeInPixels(): DisplayInfo {
     val displayMetrics = DisplayMetrics()
     display.getMetrics(displayMetrics)
 
-
-    // since SDK_INT = 1;
     var mWidthPixels = displayMetrics.widthPixels
     var mHeightPixels = displayMetrics.heightPixels
 
-    // includes window decorations (statusbar bar/menu bar)
     try {
         mWidthPixels = Display::class.java.getMethod("getRawWidth").invoke(display) as Int
         mHeightPixels = Display::class.java.getMethod("getRawHeight").invoke(display) as Int
     } catch (ignored: Exception) {
     }
 
-    // includes window decorations (statusbar bar/menu bar)
     try {
         val realSize = Point()
         Display::class.java.getMethod("getRealSize", Point::class.java)
