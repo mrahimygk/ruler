@@ -9,8 +9,6 @@ import android.view.View
 import kotlin.math.roundToInt
 
 /**
- * Simple view that shows a frame with transparent bg
- *
  * @property mLineColor: providing the color in xml, defaults to black
  * @property borderWidth: defines the line width to be drawn
  */
