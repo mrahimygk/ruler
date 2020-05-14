@@ -50,10 +50,17 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
         typeface = ResourcesCompat.getFont(context, R.font.iran_sans)
     }
 
-    private val textPaintForSubdivision = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val textPaintForCentimeterSubdivision = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = textPaintForWholeUnit.style
         color = textPaintForWholeUnit.color
-        textSize = textPaintForWholeUnit.textSize / 2
+        textSize = textPaintForWholeUnit.textSize / 1.75f
+        typeface = textPaintForWholeUnit.typeface
+    }
+
+    private val textPaintForInchSubdivision = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = textPaintForWholeUnit.style
+        color = textPaintForWholeUnit.color
+        textSize = textPaintForWholeUnit.textSize / 1.25f
         typeface = textPaintForWholeUnit.typeface
     }
 
@@ -84,7 +91,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
         if (mInCentimeter)
             repeat(centimeterLineCount * numberOfCentimeterSubdivisions) {
-                val width = when {
+                val lineLength = when {
                     it % numberOfCentimeterSubdivisions == 0 -> maxWidthOfUnit
                     it % (numberOfCentimeterSubdivisions / 2) == 0 -> maxWidthOfUnit / 1.5f
                     else -> maxWidthOfUnit / 3
@@ -96,9 +103,9 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 canvas?.drawLine(
                     0.0f,
                     linesStep,
-                    width,
+                    lineLength,
                     linesStep,
-                    linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
+                    linesPaint.halfStroke(lineLength, maxWidthOfUnit, this.strokeWidth)
                 )
 
                 //hint: there is right ruler in git history
@@ -108,8 +115,8 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     linesStep,
                     0.0f,
                     linesStep,
-                    width,
-                    linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
+                    lineLength,
+                    linesPaint.halfStroke(lineLength, maxWidthOfUnit, this.strokeWidth)
                 )
 
                 //hint: there is bottom ruler in git history
@@ -119,41 +126,41 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                  */
 
                 //left, whole units
-                if (maxWidthOfUnit == width && unitIndex != 0)
+                if (maxWidthOfUnit == lineLength && unitIndex != 0)
                     canvas?.drawText(
                         (unitIndex).toString(),
-                        width + 32,
+                        lineLength + 32,
                         linesStep + textPaintForWholeUnit.textSize / 3,
                         textPaintForWholeUnit
                     )
 
                 //left, fractions
-                if (maxWidthOfUnit / 1.5f == width && unitIndex > 1)
+                if (maxWidthOfUnit / 1.5f == lineLength && unitIndex > 1)
                     canvas?.drawText(
                         "${unitIndex - 1}٫5",
-                        width + 32,
-                        linesStep + textPaintForSubdivision.textSize / 3,
-                        textPaintForSubdivision
+                        lineLength + 32,
+                        linesStep + textPaintForCentimeterSubdivision.textSize / 3,
+                        textPaintForCentimeterSubdivision
                     )
 
                 //hint: there is right ruler numbers in git history
 
                 // top, whole units
-                if (maxWidthOfUnit == width && unitIndex != 0)
+                if (maxWidthOfUnit == lineLength && unitIndex != 0)
                     canvas?.drawText(
                         (unitIndex).toString(),
                         linesStep - textPaintForWholeUnit.textSize / 4,
-                        width + 48,
+                        lineLength + 48,
                         textPaintForWholeUnit
                     )
 
                 //top, fractions
-                if (maxWidthOfUnit / 1.5f == width && unitIndex != 0)
+                if (maxWidthOfUnit / 1.5f == lineLength && unitIndex != 0)
                     canvas?.drawText(
                         "${unitIndex - 1}٫5",
-                        linesStep - textPaintForSubdivision.textSize / 1.5f,
-                        width + 48,
-                        textPaintForSubdivision
+                        linesStep - textPaintForCentimeterSubdivision.textSize / 1.5f,
+                        lineLength + 48,
+                        textPaintForCentimeterSubdivision
                     )
 
                 //hint: there is bottom ruler numbers in git history
@@ -161,11 +168,11 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 /**
                  * only increasing index if it is a whole unit and not a fraction
                  */
-                if (maxWidthOfUnit == width) unitIndex++
+                if (maxWidthOfUnit == lineLength) unitIndex++
             }
         else
             repeat(inchLineCount * numberOfInchSubdivisions) {
-                val width = when {
+                val lineLength = when {
                     it % (numberOfInchSubdivisions / 1) == 0 -> maxWidthOfUnit / 1
                     it % (numberOfInchSubdivisions / 2) == 0 -> maxWidthOfUnit / 2
                     it % (numberOfInchSubdivisions / 4) == 0 -> maxWidthOfUnit / 4
@@ -174,30 +181,69 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     else -> 1.0f
                 }
 
-                val lineY = oneInchInPixel / numberOfInchSubdivisions * it
+                val linesStep = oneInchInPixel / numberOfInchSubdivisions * it
 
                 /**
                  * drawing a big line for whole unit, half for 1/2 unit and so on.
                  */
                 canvas?.drawLine(
                     0.0f,
-                    lineY,
-                    width,
-                    lineY,
-                    linesPaint.halfStroke(width, maxWidthOfUnit, this.strokeWidth)
+                    linesStep,
+                    lineLength,
+                    linesStep,
+                    linesPaint.halfStroke(lineLength, maxWidthOfUnit, this.strokeWidth)
+                )
+
+                /**
+                 * drawing a big line for whole unit, half for 1/2 unit and so on.
+                 */
+                canvas?.drawLine(
+                    linesStep,
+                    0.0f,
+                    linesStep,
+                    lineLength,
+                    linesPaint.halfStroke(lineLength, maxWidthOfUnit, this.strokeWidth)
                 )
 
                 /**
                  * Drawing text by using a custom type face which draws persian numbers for english numbers
                  */
-                if (maxWidthOfUnit == width && unitIndex != 0)
+                //left , whole
+                if (maxWidthOfUnit == lineLength && unitIndex != 0)
                     canvas?.drawText(
                         (unitIndex).toString(),
-                        width + 32,
-                        lineY + 16,
+                        lineLength + 32,
+                        linesStep + 16,
                         textPaintForWholeUnit
                     )
-                if (maxWidthOfUnit == width) unitIndex++
+
+                //left , fractions
+                if (maxWidthOfUnit / 2 == lineLength && unitIndex != 0)
+                    canvas?.drawText(
+                        "${unitIndex - 1}٫5",
+                        lineLength + 32,
+                        linesStep + 8,
+                        textPaintForInchSubdivision
+                    )
+
+                //top, whole
+                if (maxWidthOfUnit == lineLength && unitIndex != 0)
+                    canvas?.drawText(
+                        (unitIndex).toString(),
+                        linesStep - 12,
+                        lineLength + 48,
+                        textPaintForWholeUnit
+                    )
+
+                //top, fractions
+                if (maxWidthOfUnit/2 == lineLength && unitIndex != 0)
+                    canvas?.drawText(
+                        "${unitIndex - 1}٫5",
+                        linesStep - 12,
+                        lineLength + 48,
+                        textPaintForInchSubdivision
+                    )
+                if (maxWidthOfUnit == lineLength) unitIndex++
             }
     }
 
