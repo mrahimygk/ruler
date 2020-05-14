@@ -15,12 +15,19 @@ import kotlin.math.roundToInt
  */
 class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
-    private var borderWidth = 4.0f
-    private var mLineColor = Color.BLUE
     private var screenHeightInInch = 1.0f
     private var screenHeightInPixel = 1.0f
     private var screenWidthInInch = 1.0f
     private var screenWidthInPixel = 1.0f
+    private var oneInchInPixel = 1.0f
+    private var inchLineCount = 1
+
+    private var mLineColor = Color.BLUE
+    private var mInCentimeter = false
+
+    private val numberOfSubdivisions = 16
+    private val maxWidthOfUnit = 64.0f
+    private val borderWidth = 4.0f
 
     private val linesPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
@@ -40,14 +47,15 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     private fun init(context: Context, attrs: AttributeSet) {
-//        val typedArray =
-//            context.obtainStyledAttributes(attrs, R.styleable.Ruler, 0, 0)
-//
-//        typedArray?.apply {
-//            mLineColor = getColor(R.styleable.Ruler_lineColor, Color.BLACK)
-//        }
-//        linesPaint.color = mLineColor
-//        typedArray?.recycle()
+        val typedArray =
+            context.obtainStyledAttributes(attrs, R.styleable.Ruler, 0, 0)
+
+        typedArray?.apply {
+            mLineColor = getColor(R.styleable.Ruler_lineColor, Color.BLUE)
+            mInCentimeter = getBoolean(R.styleable.Ruler_isCentimeter, false)
+        }
+        linesPaint.color = mLineColor
+        typedArray?.recycle()
     }
 
     override fun draw(canvas: Canvas?) {
@@ -56,20 +64,10 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     private fun drawRuler(canvas: Canvas?) {
-        /**
-         * finding the ratio of int and pixel
-         */
-        val oneInchInPixel = (screenHeightInPixel / screenHeightInInch)
 
-        /**
-         * drawing x horizontal lines, 1 more to be sure
-         */
-        val count = (screenHeightInPixel / oneInchInPixel).roundToInt() + 1
-
-        val numberOfSubdivisions = 16
-        val maxWidthOfUnit = 128.0f
+        if (mInCentimeter) return
         var unitIndex = 0
-        repeat(count * numberOfSubdivisions) {
+        repeat(inchLineCount * numberOfSubdivisions) {
             val width = when {
                 it % (numberOfSubdivisions / 1) == 0 -> maxWidthOfUnit / 1
                 it % (numberOfSubdivisions / 2) == 0 -> maxWidthOfUnit / 2
@@ -104,15 +102,16 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
             )
 
             /**
-             * Drawing text by using a custom type face which draws
+             * Drawing text by using a custom type face which draws persian numbers for english numbers
              */
-            if (maxWidthOfUnit == width)
+            if (maxWidthOfUnit == width && unitIndex != 0)
                 canvas?.drawText(
-                    (unitIndex++).toString(),
+                    (unitIndex).toString(),
                     width + 32,
                     lineY + 16,
                     textPaint
                 )
+            if (maxWidthOfUnit == width) unitIndex++
         }
     }
 
@@ -126,6 +125,17 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
         this.screenHeightInPixel = screenHeightInPixel
         this.screenWidthInPixel = screenWidthInPixel
         this.screenWidthInInch = screenWidthInInch
+
+        /**
+         * finding the ratio of int and pixel
+         */
+        this.oneInchInPixel = screenHeightInPixel / screenHeightInInch
+
+        /**
+         * drawing x horizontal lines, 1 more to be sure
+         */
+        inchLineCount = (screenHeightInPixel / oneInchInPixel).roundToInt() + 1
+
         invalidate()
     }
 }
