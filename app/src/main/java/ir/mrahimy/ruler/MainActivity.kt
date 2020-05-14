@@ -16,8 +16,7 @@ class MainActivity : AppCompatActivity() {
         hideToolBr()
 
         val dm = getRealDeviceSizeInPixels()
-        val y = dm.h / dm.ydpi
-        ruler.setScreenDimensions(y, dm.h)
+        ruler.setScreenDimensions(dm.hInInch, dm.hInPixel, dm.wInInch, dm.wInPixel)
 
     }
 
@@ -53,7 +52,9 @@ class MainActivity : AppCompatActivity() {
             mWidthPixels.toFloat(),
             mHeightPixels.toFloat(),
             displayMetrics.xdpi,
-            displayMetrics.ydpi
+            displayMetrics.ydpi,
+            mWidthPixels.toFloat() / displayMetrics.xdpi,
+            mHeightPixels.toFloat() / displayMetrics.ydpi
         )
     }
 
@@ -68,8 +69,10 @@ class MainActivity : AppCompatActivity() {
 }
 
 data class DisplayInfo(
-    val w: Float,
-    val h: Float,
+    val wInPixel: Float,
+    val hInPixel: Float,
     val xdpi: Float,
-    val ydpi: Float
+    val ydpi: Float,
+    val wInInch: Float,
+    val hInInch: Float
 )
