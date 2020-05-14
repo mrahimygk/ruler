@@ -26,7 +26,11 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var centimeterLineCount = 1
 
     private var mLineColor = Color.BLUE
-    private var mInCentimeter = false
+    var mInCentimeter = false
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     private val numberOfInchSubdivisions = 16
     private val numberOfCentimeterSubdivisions = 10
