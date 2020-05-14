@@ -1,17 +1,12 @@
 package ir.mrahimy.ruler
 
-import android.annotation.SuppressLint
 import android.graphics.Point
-import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Display
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.math.pow
-import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,13 +16,8 @@ class MainActivity : AppCompatActivity() {
         hideToolBr()
 
         val dm = getRealDeviceSizeInPixels()
-        val x = dm.w / dm.xdpi
         val y = dm.h / dm.ydpi
-        val screenInches = sqrt(x.pow(2) + y.pow(2))
-        Log.d("debug", "Screen inches : $screenInches")
-
-
-        ruler.setScreenLength(y)
+        ruler.setScreenDimensions(y, dm.h)
 
     }
 
@@ -60,8 +50,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         return DisplayInfo(
-            mWidthPixels.toDouble(),
-            mHeightPixels.toDouble(),
+            mWidthPixels.toFloat(),
+            mHeightPixels.toFloat(),
             displayMetrics.xdpi,
             displayMetrics.ydpi
         )
@@ -78,8 +68,8 @@ class MainActivity : AppCompatActivity() {
 }
 
 data class DisplayInfo(
-    val w: Double,
-    val h: Double,
+    val w: Float,
+    val h: Float,
     val xdpi: Float,
     val ydpi: Float
 )
