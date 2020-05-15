@@ -260,7 +260,7 @@ class Ruler(context: Context, attrs: AttributeSet) : View(context, attrs) {
         this.oneCentimeterInPixel = oneInchInPixel / 2.54f
 
         /**
-         * drawing x horizontal lines, 1 more to be sure
+         * drawing x divider lines, 1 more to be sure
          */
         inchLineCount = (screenHeightInPixel / oneInchInPixel).roundToInt() + 1
         centimeterLineCount = (screenHeightInPixel / oneCentimeterInPixel).roundToInt() + 1
